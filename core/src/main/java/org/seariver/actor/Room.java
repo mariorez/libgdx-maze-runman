@@ -17,6 +17,8 @@ public class Room extends BaseActor {
     private Room[] neighborArray = new Room[4];
 
     private boolean connected = false;
+    private boolean visited = false;
+    private Room previousRoom;
 
     public Room(float x, float y, Stage stage) {
         super(x, y, stage);
@@ -101,6 +103,35 @@ public class Room extends BaseActor {
         int direction = directionList.get(directionIndex);
 
         return getNeighbor(direction);
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setPreviousRoom(Room room) {
+        previousRoom = room;
+    }
+
+    public Room getPreviousRoom() {
+        return previousRoom;
+    }
+
+    // Used in pathfinding: locate accessible neighbors that have not yet been visited
+    public ArrayList<Room> unvisitedPathList() {
+
+        ArrayList<Room> list = new ArrayList<>();
+
+        for (int direction : directionArray) {
+            if (hasNeighbor(direction) && !hasWall(direction) && !getNeighbor(direction).isVisited()) {
+                list.add(getNeighbor(direction));
+            }
+        }
+        return list;
     }
 }
 

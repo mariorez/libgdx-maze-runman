@@ -1,6 +1,7 @@
 package org.seariver.screen;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import org.seariver.BaseActor;
 import org.seariver.actor.Room;
 
 import java.util.ArrayList;
@@ -92,5 +93,20 @@ public class Maze {
 
     public Room getRoom(int gridX, int gridY) {
         return roomGrid[gridX][gridY];
+    }
+
+    public Room getRoom(BaseActor actor) {
+        int gridX = (int) Math.round(actor.getX() / roomWidth);
+        int gridY = (int) Math.round(actor.getY() / roomHeight);
+        return getRoom(gridX, gridY);
+    }
+
+    public void resetRooms() {
+        for (int gridY = 0; gridY < roomCountY; gridY++) {
+            for (int gridX = 0; gridX < roomCountX; gridX++) {
+                roomGrid[gridX][gridY].setVisited(false);
+                roomGrid[gridX][gridY].setPreviousRoom(null);
+            }
+        }
     }
 }
