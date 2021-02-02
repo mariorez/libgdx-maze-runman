@@ -3,6 +3,8 @@ package org.seariver.actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.seariver.BaseActor;
 
+import java.util.ArrayList;
+
 public class Room extends BaseActor {
 
     public static final int NORTH = 0;
@@ -13,6 +15,8 @@ public class Room extends BaseActor {
 
     private Wall[] wallArray = new Wall[4];
     private Room[] neighborArray = new Room[4];
+
+    private boolean connected = false;
 
     public Room(float x, float y, Stage stage) {
         super(x, y, stage);
@@ -62,6 +66,41 @@ public class Room extends BaseActor {
             this.wallArray[WEST].remove();
             other.wallArray[EAST].remove();
         }
+    }
+
+    public void setConnected(boolean b) {
+        connected = b;
+    }
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public boolean hasUnconnectedNeighbor() {
+
+        for (int direction : directionArray) {
+            if (hasNeighbor(direction) && !getNeighbor(direction).isConnected()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public Room getRandomUnconnectedNeighbor() {
+
+        ArrayList<Integer> directionList = new ArrayList<>();
+
+        for (int direction : directionArray) {
+            if (hasNeighbor(direction) && !getNeighbor(direction).isConnected()) {
+                directionList.add(direction);
+            }
+        }
+
+        int directionIndex = (int) Math.floor(Math.random() * directionList.size());
+        int direction = directionList.get(directionIndex);
+
+        return getNeighbor(direction);
     }
 }
 

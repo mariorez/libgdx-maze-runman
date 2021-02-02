@@ -3,9 +3,9 @@ package org.seariver.screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.seariver.actor.Room;
 
-public class Maze {
+import java.util.ArrayList;
 
-    private Room[][] roomGrid;
+public class Maze {
 
     // maze size constants
     private final int roomCountX = 12;
@@ -13,9 +13,9 @@ public class Maze {
     private final int roomWidth = 64;
     private final int roomHeight = 64;
 
-    public Maze(Stage stage) {
+    private Room[][] roomGrid = new Room[roomCountX][roomCountY];
 
-        roomGrid = new Room[roomCountX][roomCountY];
+    public Maze(Stage stage) {
 
         for (int gridY = 0; gridY < roomCountY; gridY++) {
             for (int gridX = 0; gridX < roomCountX; gridX++) {
@@ -38,6 +38,39 @@ public class Maze {
                     room.setNeighbor(Room.WEST, roomGrid[gridX - 1][gridY]);
                 if (gridX < roomCountX - 1)
                     room.setNeighbor(Room.EAST, roomGrid[gridX + 1][gridY]);
+            }
+        }
+
+        ArrayList<Room> activeRoomList = new ArrayList<>();
+
+        Room currentRoom = roomGrid[0][0];
+        currentRoom.setConnected(true);
+        activeRoomList.add(0, currentRoom);
+
+        /* chance of returning to a random connected room
+           to create a branching path from that room */
+        float branchProbability = 0.5f;
+
+        while (activeRoomList.size() > 0) {
+
+            if (Math.random() < branchProbability) {
+                // get random previously visited room
+                int roomIndex = (int) (Math.random() * activeRoomList.size());
+                currentRoom = activeRoomList.get(roomIndex);
+            } else {
+                // get the most recently visited room
+                currentRoom = activeRoomList.get(activeRoomList.size() - 1);
+            }
+
+            if (currentRoom.hasUnconnectedNeighbor()) {
+                Room nextRoom = currentRoom.getRandomUnconnectedNeighbor();
+                currentRoom.removeWallsBetween(nextRoom);
+                nextRoom.setConnected(true);
+                activeRoomList.add(0, nextRoom);
+            } else {
+                // this room has no more adjacent unconnected rooms
+                //so there is no reason to keep it in the list
+                activeRoomList.remove(currentRoom);
             }
         }
     }
