@@ -5,10 +5,12 @@ import com.badlogic.gdx.graphics.Color;
 import org.seariver.BaseActor;
 import org.seariver.BaseGame;
 import org.seariver.BaseScreen;
+import org.seariver.actor.Hero;
 
 public class LevelScreen extends BaseScreen {
 
     Maze maze;
+    Hero hero;
 
     public void initialize() {
 
@@ -18,9 +20,16 @@ public class LevelScreen extends BaseScreen {
         background.setSize(768, 700);
 
         maze = new Maze(mainStage);
+
+        hero = new Hero(0, 0, mainStage);
+        hero.centerAtActor(maze.getRoom(0, 0));
     }
 
+    // Game Loop
     public void update(float deltaTime) {
+        for (BaseActor wall : BaseActor.getList(mainStage, "org.seariver.actor.Wall")) {
+            hero.preventOverlap(wall);
+        }
     }
 
     public boolean keyDown(int keyCode) {
