@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Ghost extends BaseActor {
 
-    public float speed = 60; // pixels per second
+    public float speed = 55; // pixels per second
 
     public Ghost(float x, float y, Stage stage) {
         super(x, y, stage);

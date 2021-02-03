@@ -50,7 +50,7 @@ public class LevelScreen extends BaseScreen {
             int startY = maze.roomCountY - i;
             Ghost ghost = new Ghost(0, 0, mainStage);
             ghost.centerAtActor(maze.getRoom(startX, startY));
-            ghost.speed = ghost.speed + (i * 3);
+            ghost.speed = ghost.speed + (i * 5);
             ghost.toFront();
         }
 

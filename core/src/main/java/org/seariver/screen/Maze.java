@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class Maze {
 
     // maze size constants
-    private final int roomCountX = 12;
-    private final int roomCountY = 10;
+    public final int roomCountX = 12;
+    public final int roomCountY = 10;
     private final int roomWidth = 64;
     private final int roomHeight = 64;
 
