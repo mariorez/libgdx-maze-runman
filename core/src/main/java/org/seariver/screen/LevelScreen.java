@@ -90,13 +90,13 @@ public class LevelScreen extends BaseScreen {
         if (coins == 0) {
             for (BaseActor ghost : BaseActor.getList(mainStage, "org.seariver.actor.Ghost")) {
                 ghost.remove();
-                ghost.setPosition(-1000, -1000);
                 ghost.clearActions();
                 ghost.addAction(Actions.forever(Actions.delay(1)));
             }
             messageLabel.setText("You win!");
             messageLabel.setColor(Color.GREEN);
             messageLabel.setVisible(true);
+            windMusic.stop();
         }
 
         for (BaseActor actor : BaseActor.getList(mainStage, "org.seariver.actor.Ghost")) {
@@ -105,12 +105,12 @@ public class LevelScreen extends BaseScreen {
 
             if (hero.overlaps(ghost)) {
                 hero.remove();
-                hero.setPosition(-1000, -1000);
                 ghost.clearActions();
                 ghost.addAction(Actions.forever(Actions.delay(1)));
                 messageLabel.setText("Game Over");
                 messageLabel.setColor(Color.RED);
                 messageLabel.setVisible(true);
+                windMusic.stop();
             }
 
             if (ghost.getActions().size == 0) {

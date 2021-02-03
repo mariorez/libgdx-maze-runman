@@ -96,8 +96,8 @@ public class Maze {
     }
 
     public Room getRoom(BaseActor actor) {
-        int gridX = (int) Math.round(actor.getX() / roomWidth);
-        int gridY = (int) Math.round(actor.getY() / roomHeight);
+        int gridX = Math.round(actor.getX() / roomWidth);
+        int gridY = Math.round(actor.getY() / roomHeight);
         return getRoom(gridX, gridY);
     }
 
