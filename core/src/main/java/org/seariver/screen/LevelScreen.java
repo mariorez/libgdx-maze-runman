@@ -36,20 +36,22 @@ public class LevelScreen extends BaseScreen {
 
         maze = new Maze(mainStage);
 
-        hero = new Hero(0, 0, mainStage);
-        hero.centerAtActor(maze.getRoom(0, 0));
-
-        for (int i = 0; i <= 3; i++) {
-            int startAt = 8 - i;
-            Ghost ghost = new Ghost(0, 0, mainStage);
-            ghost.centerAtActor(maze.getRoom(startAt, startAt));
-            ghost.speed = ghost.speed + (i*3);
-            ghost.toFront();
-        }
-
         for (BaseActor room : BaseActor.getList(mainStage, "org.seariver.actor.Room")) {
             Coin coin = new Coin(0, 0, mainStage);
             coin.centerAtActor(room);
+        }
+
+        hero = new Hero(0, 0, mainStage);
+        hero.centerAtActor(maze.getRoom(0, 0));
+
+        // add multiple Ghosts to mainStage
+        for (int i = 1; i <= 3; i++) {
+            int startX = maze.roomCountX - i;
+            int startY = maze.roomCountY - i;
+            Ghost ghost = new Ghost(0, 0, mainStage);
+            ghost.centerAtActor(maze.getRoom(startX, startY));
+            ghost.speed = ghost.speed + (i * 3);
+            ghost.toFront();
         }
 
         coinsLabel = new Label("Coins left:", BaseGame.labelStyle);
